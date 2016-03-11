@@ -1,6 +1,5 @@
 package com.iue.pocketdoc.visitscheduling.widget;
 
-
 import com.iue.pocketdoc.android.R;
 import com.iue.pocketdoc.common.widget.PickDialog;
 
@@ -11,78 +10,62 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-
 /**
  * @author HKQ
  * @category 新增排班界面中开始时间与持续时间的选择
  * @date 2015年12月
  */
 public abstract class SinglePickDialog extends PickDialog {
+	public static final int type_symbol = 0;
+	public static final int type_word = 1;
+	private final static int layout = R.layout.single_dialog;
+	private int type;
 	private NumberPicker mFirstPicker, mSecondPicker;
 	private TextView mSingleDialogFirstTxt, mSingleDialogSecondTxt;
-	public static final int type_single_start = 0;
-	public static final int type_single_last = 1;
-	final String[] first4last = { "0", "1", "2", "3", "4" };
-	final String[] second4start = { "00", "15", "30", "45" };
-	final String[] second4last = { "00", "30" };
-	private int type;
+	String[] leftArr;
+	String[] rightArr;
 
-	public SinglePickDialog(Context context, int layout, String title,
-			boolean hasbtn, int type) {
-		super(context, layout, title, hasbtn);
+	public SinglePickDialog(Context context, String[] leftArr,
+			String[] rightArr, String title, int type) {
+		super(context, layout, title, true);// hasBtn默认true
+		this.leftArr = leftArr;
+		this.rightArr = rightArr;
 		this.type = type;
 	}
 
 	public void setDefault(int leftValue, int rightValue) {
+		mFirstPicker.setDisplayedValues(leftArr);
+		// 设置最小值为arr[0]
+		mFirstPicker.setMinValue(0);
+		// 设置最小值为arr[arr.length-1]
+		mFirstPicker.setMaxValue(leftArr.length - 1);
+		mFirstPicker.setValue(leftValue);
+		mSecondPicker.setDisplayedValues(rightArr);
+		mSecondPicker.setMinValue(0);
+		mSecondPicker.setMaxValue(rightArr.length - 1);
+		mSecondPicker.setValue(getTrueRightIndex(rightValue));
 		switch (type) {
-		case type_single_start:
+		case type_symbol:
 			mSingleDialogFirstTxt.setText(":");
-			mFirstPicker.setMinValue(0);
-			mFirstPicker.setMaxValue(23);
-			mFirstPicker.setValue(leftValue);// 0-23
-			mSecondPicker.setDisplayedValues(second4start);
-			mSecondPicker.setMinValue(0);
-			mSecondPicker.setMaxValue(second4start.length - 1);
-			mSecondPicker.setValue(getTrueRightIndex(rightValue));// 0、15、30、45
 			break;
-		case type_single_last:
+		case type_word:
 			mSingleDialogFirstTxt.setText("小时");
-			mFirstPicker.setDisplayedValues(first4last);
-			mFirstPicker.setMinValue(0);
-			mFirstPicker.setMaxValue(first4last.length - 1);
-			mFirstPicker.setValue(leftValue);// 0、1、2、3、4
 			mSingleDialogSecondTxt.setText("分钟");
-			mSecondPicker.setDisplayedValues(second4last);
-			mSecondPicker.setMinValue(0);
-			mSecondPicker.setMaxValue(second4last.length - 1);
-			mSecondPicker.setValue(getTrueRightIndex(rightValue));// 0、30
 			break;
 		}
 	}
 
-	// private int getTrueLeftIndex(int leftValue){
-	// switch(type){
-	// case type_single_last:
-	// for (int i = 0; i < first4last.length; i++) {
-	// if (leftValue == Integer.valueOf(first4last[i]))
-	// return i;
-	// }
-	// break;
-	// }
-	// return 0;
-	// }
-
 	private int getTrueRightIndex(int rightValue) {
 		switch (type) {
-		case type_single_start:
-			for (int i = 0; i < second4start.length; i++) {
-				if (rightValue == Integer.valueOf(second4start[i]))
+		case type_symbol:
+			for (int i = 0; i < rightArr.length; i++) {
+				if (rightValue == Integer.valueOf(rightArr[i]))
 					return i;
 			}
 			break;
-		case type_single_last:
-			for (int i = 0; i < second4last.length; i++) {
-				if (rightValue == Integer.valueOf(second4last[i]))
+		case type_word:
+			for (int i = 0; i < rightArr.length; i++) {
+				if (rightValue == Integer.valueOf(rightArr[i]))
 					return i;
 			}
 			break;
@@ -92,16 +75,16 @@ public abstract class SinglePickDialog extends PickDialog {
 
 	private String getTrueRightValue(int rightValue) {
 		switch (type) {
-		case type_single_start:
-			for (int i = 0; i < second4start.length; i++) {
+		case type_symbol:
+			for (int i = 0; i < rightArr.length; i++) {
 				if (rightValue == i)
-					return second4start[i];
+					return rightArr[i];
 			}
 			break;
-		case type_single_last:
-			for (int i = 0; i < second4last.length; i++) {
+		case type_word:
+			for (int i = 0; i < rightArr.length; i++) {
 				if (rightValue == i)
-					return second4last[i];
+					return rightArr[i];
 			}
 			break;
 		}
@@ -127,7 +110,7 @@ public abstract class SinglePickDialog extends PickDialog {
 		if (sure) {
 			StringBuffer sb = new StringBuffer();
 			switch (type) {
-			case type_single_start:
+			case type_symbol:
 				sb.append(mFirstPicker.getValue());
 				sb.append(":");
 				sb.append(getTrueRightValue(mSecondPicker.getValue()));
@@ -135,7 +118,7 @@ public abstract class SinglePickDialog extends PickDialog {
 						Integer.valueOf(getTrueRightValue(mSecondPicker
 								.getValue())));
 				break;
-			case type_single_last:
+			case type_word:
 				if (mFirstPicker.getValue() != 0) {
 					sb.append(mFirstPicker.getValue());
 					sb.append("小时");
