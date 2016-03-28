@@ -6,14 +6,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Date;
+
 import cn.trinea.android.demo.eventbus.util.LogUtils;
 import cn.trinea.android.demo.eventbus.util.TextUtils;
 import de.greenrobot.event.EventBus;
 
 public class DiffThreadModeActivity extends BaseActivity {
 
-    private EditText eventET;
-    private Button   sendBtn;
+    private EditText eventET;//volatile
+    private Button sendBtn;
     private TextView receivedEventTV;
 
     @Override
@@ -41,7 +44,7 @@ public class DiffThreadModeActivity extends BaseActivity {
         appendText("onEvent receive msg: " + event);
     }
 
-    // Receive Event
+    // Receive Event 没有显示
     public void onEventBackgroundThread(String event) {
         LogUtils.d(this, "onEventBackgroundThread");
         appendText("onEventBackgroundThread receive msg: " + event);
@@ -63,13 +66,13 @@ public class DiffThreadModeActivity extends BaseActivity {
         String threadInfo = ", current thread info: id is" + Thread.currentThread().getId() + ", content is "
                 + Thread.currentThread().toString() + "}";
         receivedEventTV.setText(new StringBuilder(receivedEventTV.getText()).append("\r\n\r\n").append(newText)
-                .append(threadInfo));
+                .append(threadInfo).append(new Date().toString()));
     }
 
     private void initView() {
-        eventET = (EditText)findViewById(R.id.event_content);
-        receivedEventTV = (TextView)findViewById(R.id.receive_event);
-        sendBtn = (Button)findViewById(R.id.send_event);
+        eventET = (EditText) findViewById(R.id.event_content);
+        receivedEventTV = (TextView) findViewById(R.id.receive_event);
+        sendBtn = (Button) findViewById(R.id.send_event);
         sendBtn.setOnClickListener(new OnClickListener() {
 
             @Override

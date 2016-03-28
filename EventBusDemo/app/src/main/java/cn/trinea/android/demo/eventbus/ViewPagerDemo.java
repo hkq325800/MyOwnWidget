@@ -1,6 +1,7 @@
 package cn.trinea.android.demo.eventbus;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -30,26 +31,26 @@ import de.greenrobot.event.EventBus;
 
 /**
  * ViewPager with Fragment
- * 
+ *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2012-11-14
  */
 public class ViewPagerDemo extends BaseFragmentActivity {
 
-    private static int     TOTAL_COUNT            = 3;
+    private static int TOTAL_COUNT = 3;
 
-    private EditText       eventET;
-    private Button         sendBtn;
-    private static CheckBox       cancelEventCB;
+    private EditText eventET;
+    private Button sendBtn;
+    private static CheckBox cancelEventCB;
 
     private RelativeLayout viewPagerContainer;
-    private ViewPager      viewPager;
+    private ViewPager viewPager;
 
-    boolean                isCancelAfterFirstTime = false;
+    boolean isCancelAfterFirstTime = false;
 
     private void initView() {
-        eventET = (EditText)findViewById(R.id.event_content);
-        sendBtn = (Button)findViewById(R.id.send_event);
-        cancelEventCB = (CheckBox)findViewById(R.id.event_cancel);
+        eventET = (EditText) findViewById(R.id.event_content);
+        sendBtn = (Button) findViewById(R.id.send_event);
+        cancelEventCB = (CheckBox) findViewById(R.id.event_cancel);
         sendBtn.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -58,7 +59,7 @@ public class ViewPagerDemo extends BaseFragmentActivity {
             }
         });
 
-        viewPager = (ViewPager)findViewById(R.id.view_pager);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
         List<Fragment> fragmentList = new ArrayList<Fragment>();
         List<String> titleList = new ArrayList<String>();
         for (int i = 0; i < TOTAL_COUNT; i++) {
@@ -73,7 +74,7 @@ public class ViewPagerDemo extends BaseFragmentActivity {
         // to let show more than one fragment at the same time, see
         // http://www.trinea.cn/android/viewpager-multi-fragment-effect/
         viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
-        viewPagerContainer = (RelativeLayout)findViewById(R.id.pager_layout);
+        viewPagerContainer = (RelativeLayout) findViewById(R.id.pager_layout);
         viewPagerContainer.setOnTouchListener(new OnTouchListener() {
 
             @Override
@@ -89,7 +90,7 @@ public class ViewPagerDemo extends BaseFragmentActivity {
         viewPager.setCurrentItem(1);
 
         int margin = (AppUtils.getScreenWidth(getApplicationContext()) + pageSpace * (TOTAL_COUNT - 1)) / TOTAL_COUNT;
-        LayoutParams viewPagerParams = (LayoutParams)viewPager.getLayoutParams();
+        LayoutParams viewPagerParams = (LayoutParams) viewPager.getLayoutParams();
         viewPagerParams.setMargins(margin, 0, margin, 0);
     }
 
@@ -104,7 +105,8 @@ public class ViewPagerDemo extends BaseFragmentActivity {
     public class MyOnPageChangeListener implements OnPageChangeListener {
 
         @Override
-        public void onPageSelected(int position) {}
+        public void onPageSelected(int position) {
+        }
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -115,13 +117,14 @@ public class ViewPagerDemo extends BaseFragmentActivity {
         }
 
         @Override
-        public void onPageScrollStateChanged(int arg0) {}
+        public void onPageScrollStateChanged(int arg0) {
+        }
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragmentList;
-        private List<String>   titleList;
+        private List<String> titleList;
 
         public MyPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> titleList) {
             super(fm);
@@ -131,7 +134,7 @@ public class ViewPagerDemo extends BaseFragmentActivity {
 
         @Override
         public Fragment getItem(int arg0) {
-            return /*ListUtils.isEmpty(fragmentList)*/fragmentList.size()==0 ? null : fragmentList.get(arg0);
+            return /*ListUtils.isEmpty(fragmentList)*/fragmentList.size() == 0 ? null : fragmentList.get(arg0);
         }
 
         @Override
@@ -147,13 +150,13 @@ public class ViewPagerDemo extends BaseFragmentActivity {
 
     public static class TextFragment extends Fragment {
 
-        private int      index;
+        private int index;
         private TextView infoTV;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_text_view, container, false);
-            infoTV = (TextView)v.findViewById(R.id.view_pager_text);
+            infoTV = (TextView) v.findViewById(R.id.view_pager_text);
 
             Bundle bundle = getArguments();
             if (bundle != null) {
@@ -177,7 +180,7 @@ public class ViewPagerDemo extends BaseFragmentActivity {
         // Receive Event
         public void onEvent(String event) {
             infoTV.setText(event + "\r\nPriority is:" + (index + 1) + "\r\nTime is:\r\n"
-                    + /*TimeUtils.getCurrentTimeInString()*/"16.3.9");
+                    + System.currentTimeMillis());
             if (index == TOTAL_COUNT - 1 && cancelEventCB.isChecked()) {
                 EventBus.getDefault().cancelEventDelivery(event);
                 infoTV.setText(infoTV.getText() + "\r\nCancel further event delivery");

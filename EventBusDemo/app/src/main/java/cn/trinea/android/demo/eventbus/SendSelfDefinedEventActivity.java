@@ -6,6 +6,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import cn.trinea.android.demo.eventbus.util.TextUtils;
 import de.greenrobot.event.EventBus;
 
@@ -13,7 +14,7 @@ public class SendSelfDefinedEventActivity extends BaseActivity {
 
     private EditText eventNameET;
     private EditText eventDescET;
-    private Button   sendBtn;
+    private Button sendBtn;
     private TextView receivedEventTV;
 
     @Override
@@ -59,10 +60,10 @@ public class SendSelfDefinedEventActivity extends BaseActivity {
     }
 
     private void initView() {
-        eventNameET = (EditText)findViewById(R.id.event_content_name);
-        eventDescET = (EditText)findViewById(R.id.event_content_desc);
-        receivedEventTV = (TextView)findViewById(R.id.receive_event);
-        sendBtn = (Button)findViewById(R.id.send_event);
+        eventNameET = (EditText) findViewById(R.id.event_content_name);
+        eventDescET = (EditText) findViewById(R.id.event_content_desc);
+        receivedEventTV = (TextView) findViewById(R.id.receive_event);
+        sendBtn = (Button) findViewById(R.id.send_event);
         sendBtn.setOnClickListener(new OnClickListener() {
 
             @Override

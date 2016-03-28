@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import cn.trinea.android.demo.eventbus.util.TextUtils;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.SubscriberExceptionEvent;
@@ -14,7 +15,7 @@ import de.greenrobot.event.SubscriberExceptionEvent;
 public class SendSimplestEventActivity extends BaseActivity {
 
     private EditText eventET;
-    private Button   sendBtn;
+    private Button sendBtn;
     private TextView receivedEventTV;
 
     @Override
@@ -47,15 +48,22 @@ public class SendSimplestEventActivity extends BaseActivity {
         Log.e("event", "catch SubscriberExceptionEvent");
     }
 
+    public void onEvent(TestBean test) {
+        Log.d("test", test.name);
+        Log.d("test", test.count + "/" + test.dou);
+        Log.d("test", test.test.toString());
+    }
+
     private void initView() {
-        eventET = (EditText)findViewById(R.id.event_content);
-        receivedEventTV = (TextView)findViewById(R.id.receive_event);
-        sendBtn = (Button)findViewById(R.id.send_event);
+        eventET = (EditText) findViewById(R.id.event_content);
+        receivedEventTV = (TextView) findViewById(R.id.receive_event);
+        sendBtn = (Button) findViewById(R.id.send_event);
         sendBtn.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(TextUtils.getHintIfTextIsNull(eventET));
+//                EventBus.getDefault().post(TextUtils.getHintIfTextIsNull(eventET));
+                EventBus.getDefault().post(new TestBean(null));
             }
         });
     }
