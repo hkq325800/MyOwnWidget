@@ -9,6 +9,9 @@ import android.widget.TextView;
 import cn.trinea.android.demo.eventbus.util.TextUtils;
 import de.greenrobot.event.EventBus;
 
+/**
+ * @deprecated
+ */
 public class SendOrderedEventActivity extends BaseFragmentActivity {
 
     private EditText eventET;

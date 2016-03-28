@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
         });
 
         //与我在第一个中传输的TestBean类似不需要继承Serializable之类
-        //可以尝试在startActivity后向前一个发送EventBus看接不接收得到
+        //可以尝试在startActivity后向前一个register过的activity发送EventBus看返回时接不接收得到
         sendEventSelfDefinedBtn = (Button)findViewById(R.id.send_event_self_defined);
         sendEventSelfDefinedBtn.setOnClickListener(new OnClickListener() {
 
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        //在接收一次之后使用cancelEventDelivery可以取消event的进一步传播
+        //在接收几次之后使用cancelEventDelivery可以取消event的进一步传播
         //fragment在onCreateView中register(this, index)设定优先级，在onDestroyView中unregister
         sendOrderedEventBtn = (Button)findViewById(R.id.send_ordered_event);
         sendOrderedEventBtn.setOnClickListener(new OnClickListener() {
@@ -79,6 +79,13 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        //使用sticky形式的EventBus可以使数据被缓存在内存中而不必立即使用
+        //发送的方法EventBus.getDefault().postSticky(obj)
+        //注册的方法有所不同，需要在使用时EventBus.getDefault().registerSticky(this);
+        //使用完毕后立即EventBus.getDefault().unregister(this);
+        //接收的方法也写在同一个runnable中
+        //register必须与至少一个onEvent一同出现 否则crash
+        //而且要先postSticky再registerSticky
         sendStickyEventBtn = (Button)findViewById(R.id.send_sticky_event);
         sendStickyEventBtn.setOnClickListener(new OnClickListener() {
 

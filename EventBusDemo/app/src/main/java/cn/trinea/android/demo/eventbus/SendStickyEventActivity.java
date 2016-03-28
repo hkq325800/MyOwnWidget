@@ -7,14 +7,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import cn.trinea.android.demo.eventbus.util.TextUtils;
 import de.greenrobot.event.EventBus;
 
 public class SendStickyEventActivity extends BaseActivity {
 
-    private EditText         eventET;
-    private Button           sendBtn;
-    private TextView         receivedEventTV;
+    private EditText eventET;
+    private Button sendBtn;
+    private TextView receivedEventTV;
 
     private static final int WAIT_TIME = 2000;
 
@@ -31,9 +32,9 @@ public class SendStickyEventActivity extends BaseActivity {
     }
 
     private void initView() {
-        eventET = (EditText)findViewById(R.id.event_content);
-        receivedEventTV = (TextView)findViewById(R.id.receive_event);
-        sendBtn = (Button)findViewById(R.id.send_event);
+        eventET = (EditText) findViewById(R.id.event_content);
+        receivedEventTV = (TextView) findViewById(R.id.receive_event);
+        sendBtn = (Button) findViewById(R.id.send_event);
         sendBtn.setOnClickListener(new OnClickListener() {
 
             @Override

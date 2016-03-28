@@ -181,7 +181,7 @@ public class ViewPagerDemo extends BaseFragmentActivity {
         public void onEvent(String event) {
             infoTV.setText(event + "\r\nPriority is:" + (index + 1) + "\r\nTime is:\r\n"
                     + System.currentTimeMillis());
-            if (index == TOTAL_COUNT - 1 && cancelEventCB.isChecked()) {
+            if (index == 1 && cancelEventCB.isChecked()) {
                 EventBus.getDefault().cancelEventDelivery(event);
                 infoTV.setText(infoTV.getText() + "\r\nCancel further event delivery");
             }
