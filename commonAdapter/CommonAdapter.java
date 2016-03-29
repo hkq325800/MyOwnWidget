@@ -35,6 +35,11 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 	public T getItem(int position) {
 		return mDatas.get(position);
 	}
+	
+	public void setList(List<T> newData){
+		mDatas = newData;
+		notifyDataSetChanged();
+	}
 
 	@Override
 	public long getItemId(int position) {
@@ -44,7 +49,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		CommonViewHolder holder = CommonViewHolder.get(mContext, convertView, parent, layoutId, position);
-		convert(holder, getItem(position));
+		convert(holder, getItem(position), position);
 		return holder.getConvertView();
 	}
 
@@ -53,5 +58,5 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 	 * @param holder
 	 * @param t
 	 */
-	public abstract void convert(CommonViewHolder holder, T t);
+	public abstract void convert(CommonViewHolder holder, T t, int position);
 }
