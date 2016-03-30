@@ -40,6 +40,10 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 		mDatas = newData;
 		notifyDataSetChanged();
 	}
+	
+	public List<T> getList(){
+		return mDatas;
+	}
 
 	@Override
 	public long getItemId(int position) {
