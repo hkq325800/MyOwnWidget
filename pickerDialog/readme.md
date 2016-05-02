@@ -11,12 +11,7 @@ dialog = new StringPickerDialog(ThisActivity.this,
 dialog.setDefault("默认值", "");
 ```
 `DatePickerFragment用于选择年月日`
-
-
-
-
-
-
+下一步的改进需要参考[文章](http://www.jianshu.com/p/af6499abd5c2)
 
 
 `SinglePickDialog用于选择小时（0-23时），分钟（00、15、30、45）`
