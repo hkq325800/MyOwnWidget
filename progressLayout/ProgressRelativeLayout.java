@@ -25,7 +25,7 @@ import android.widget.TextView;
  * BaseFragment
  * 1.initProcess(view,mServicePullLV);
  * 2.handler:dismissProg();+showListView(mServicePullLV);
- * @author HKQ
+ * @author Kerchin
  */
 public class ProgressRelativeLayout extends RelativeLayout {
 	private ImageView mLoadingImg, mNodataImg;
@@ -145,6 +145,16 @@ public class ProgressRelativeLayout extends RelativeLayout {
 		mNodataImg.setImageResource(R.drawable.ic_nonetwork);
 		mNodataTxt.setText(text);
 		initAlphaView(mNodataTxt, mNodataImg, mNodataBtn);
+		mNodataBtn.setOnClickListener(noDataInterface);
+	}
+	
+	public void showRefresh(String text, String err,
+			OnClickListener noDataInterface,int resID,String buttonName) {
+		Trace.d(err);
+		mNodataImg.setImageResource(resID);
+		mNodataTxt.setText(text);
+		initAlphaView(mNodataTxt, mNodataImg, mNodataBtn);
+		mNodataBtn.setText(buttonName);
 		mNodataBtn.setOnClickListener(noDataInterface);
 	}
 
